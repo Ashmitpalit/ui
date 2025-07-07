@@ -76,7 +76,22 @@ class CompanionFinderScreen extends StatelessWidget {
                 ),
               ],
             ),
-            // Profile icon in the top-right corner
+            // Back button (top-left corner)
+            Positioned(
+              top: 16,
+              left: 16,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  size: 28,
+                  color: Colors.black87,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            // Profile icon (top-right corner)
             Positioned(
               top: 16,
               right: 16,
