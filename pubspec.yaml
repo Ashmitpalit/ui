@@ -68,6 +68,7 @@ flutter:
     - assets/wave_bg.svg
     - assets/header_illustration.svg
     - assets/login_bg.svg
+    - assets/try_bg.svg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

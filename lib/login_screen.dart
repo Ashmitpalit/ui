@@ -36,20 +36,19 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               // SVG illustration header
               SizedBox(
-                height: 200,
+                height: 250,
                 width: double.infinity,
-                child: SvgPicture.asset(
-                  'assets/login_bg.svg',
-                  fit: BoxFit.cover,
-                ),
+                child: SvgPicture.asset('assets/try_bg.svg'),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Login to Companion Finder',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+              Center(
+                child: const Text(
+                  'Login to Companion Finder',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
