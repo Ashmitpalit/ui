@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ui/companion_finder_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -10,7 +11,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String selectedDocument = 'Aadhaar';
+  String? selectedDocument;
+
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Selected file: ${pickedFile.name}')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
               const Text(
                 'Login to Companion Finder',
                 style: TextStyle(
@@ -45,28 +57,44 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade300),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: selectedDocument,
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'Aadhaar',
-                        child: Text('Aadhaar'),
-                      ),
-                      DropdownMenuItem(value: 'PAN', child: Text('PAN')),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        selectedDocument = value!;
-                      });
-                    },
+                child: DropdownButtonFormField<String>(
+                  value: selectedDocument,
+                  decoration: InputDecoration(
+                    hintText: 'Select document type',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 14,
+                    ),
                   ),
+                  icon: const Icon(Icons.arrow_drop_down),
+                  style: const TextStyle(fontSize: 16, color: Colors.black87),
+                  items: const [
+                    DropdownMenuItem(value: 'Aadhaar', child: Text('Aadhaar')),
+                    DropdownMenuItem(value: 'PAN', child: Text('PAN')),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      selectedDocument = value;
+                    });
+                  },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               _buildTextField('Name'),
               const SizedBox(height: 16),
               _buildTextField('Email'),
@@ -75,10 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 24),
               _buildButton(
                 icon: Icons.qr_code_scanner,
-                label: 'Scan $selectedDocument',
-                onTap: () {
-                  // Placeholder for scan action
-                },
+                label: 'Scan ${selectedDocument ?? "Document"}',
+                onTap: _pickImage,
                 color: Colors.orangeAccent,
               ),
               const SizedBox(height: 12),
@@ -86,7 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 icon: Icons.fingerprint,
                 label: 'Authorize Biometric',
                 onTap: () {
-                  // Placeholder for biometric action
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Biometric authorization tapped'),
+                    ),
+                  );
                 },
                 color: Colors.blueAccent,
               ),
@@ -112,23 +142,28 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildTextField(String hint, {bool obscure = false}) {
-    return TextField(
-      obscureText: obscure,
-      decoration: InputDecoration(
-        hintText: hint,
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 14,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
+        ],
+      ),
+      child: TextField(
+        obscureText: obscure,
+        decoration: InputDecoration(
+          hintText: hint,
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
         ),
       ),
     );

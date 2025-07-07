@@ -9,67 +9,146 @@ class CompanionFinderScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            // Big illustration header
-            SizedBox(
-              height: 220,
-              width: double.infinity,
-              child: SvgPicture.asset(
-                'assets/header_illustration.svg',
-                fit: BoxFit.cover,
-              ),
+            Column(
+              children: [
+                // Big illustration header
+                SizedBox(
+                  height: 220,
+                  width: double.infinity,
+                  child: SvgPicture.asset(
+                    'assets/header_illustration.svg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // Title
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Find Your Companion',
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        'Choose the type of companion you want to connect with',
+                        style: TextStyle(fontSize: 16, color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // Cards
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    children: const [
+                      CompanionCard(
+                        icon: Icons.sports_soccer,
+                        title: 'Sports Companion',
+                        description: 'Find friends to play sports together',
+                        color: Color(0xFFFFE082),
+                      ),
+                      SizedBox(height: 16),
+                      CompanionCard(
+                        icon: Icons.restaurant,
+                        title: 'Food Companion',
+                        description: 'Discover foodie buddies around you',
+                        color: Color(0xFFFFCC80),
+                      ),
+                      SizedBox(height: 16),
+                      CompanionCard(
+                        icon: Icons.travel_explore,
+                        title: 'Travel Companion',
+                        description: 'Meet travel partners for new adventures',
+                        color: Color(0xFF80DEEA),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 12),
-            // Title
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Find Your Companion',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+            // Profile icon in the top-right corner
+            Positioned(
+              top: 16,
+              right: 16,
+              child: IconButton(
+                icon: const Icon(Icons.person, size: 28, color: Colors.black87),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    'Choose the type of companion you want to connect with',
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Cards
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                children: const [
-                  CompanionCard(
-                    icon: Icons.sports_soccer,
-                    title: 'Sports Companion',
-                    description: 'Find friends to play sports together',
-                    color: Color(0xFFFFE082),
-                  ),
-                  SizedBox(height: 16),
-                  CompanionCard(
-                    icon: Icons.restaurant,
-                    title: 'Food Companion',
-                    description: 'Discover foodie buddies around you',
-                    color: Color(0xFFFFCC80),
-                  ),
-                  SizedBox(height: 16),
-                  CompanionCard(
-                    icon: Icons.travel_explore,
-                    title: 'Travel Companion',
-                    description: 'Meet travel partners for new adventures',
-                    color: Color(0xFF80DEEA),
-                  ),
-                ],
+                    builder: (context) => DraggableScrollableSheet(
+                      initialChildSize: 0.65,
+                      minChildSize: 0.3,
+                      maxChildSize: 0.65,
+                      expand: false,
+                      builder: (_, controller) => Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: ListView(
+                          controller: controller,
+                          children: const [
+                            Center(
+                              child: CircleAvatar(
+                                radius: 40,
+                                backgroundColor: Colors.grey,
+                                child: Icon(
+                                  Icons.person,
+                                  size: 40,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            Center(
+                              child: Text(
+                                'Ashmit Palit',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Center(
+                              child: Text(
+                                'ashmit@example.com',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Center(
+                              child: Text(
+                                '+91 9876543210',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],
