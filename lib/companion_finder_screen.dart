@@ -13,7 +13,6 @@ class CompanionFinderScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                // Big illustration header
                 SizedBox(
                   height: 220,
                   width: double.infinity,
@@ -23,7 +22,6 @@ class CompanionFinderScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                // Title
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
@@ -46,9 +44,9 @@ class CompanionFinderScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Cards
                 Expanded(
                   child: ListView(
+                    physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     children: const [
                       CompanionCard(
@@ -76,7 +74,6 @@ class CompanionFinderScreen extends StatelessWidget {
                 ),
               ],
             ),
-            // Back button (top-left corner)
             Positioned(
               top: 16,
               left: 16,
@@ -86,12 +83,9 @@ class CompanionFinderScreen extends StatelessWidget {
                   size: 28,
                   color: Colors.black87,
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: () => Navigator.pop(context),
               ),
             ),
-            // Profile icon (top-right corner)
             Positioned(
               top: 16,
               right: 16,
@@ -190,9 +184,7 @@ class CompanionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // You can navigate to a details screen here
-      },
+      onTap: () {},
       child: Container(
         decoration: BoxDecoration(
           color: color.withOpacity(0.2),
