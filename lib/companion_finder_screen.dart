@@ -7,7 +7,6 @@ class CompanionFinderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F9F9),
       body: SafeArea(
         child: Stack(
           children: [
@@ -18,7 +17,7 @@ class CompanionFinderScreen extends StatelessWidget {
                   width: double.infinity,
                   child: SvgPicture.asset(
                     'assets/header_illustration.svg',
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -46,28 +45,27 @@ class CompanionFinderScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Expanded(
                   child: ListView(
-                    physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     children: const [
                       CompanionCard(
                         icon: Icons.sports_soccer,
                         title: 'Sports Companion',
                         description: 'Find friends to play sports together',
-                        color: Color(0xFFFFE082),
+                        color: Color(0xFFFFF3CD),
                       ),
                       SizedBox(height: 16),
                       CompanionCard(
                         icon: Icons.restaurant,
                         title: 'Food Companion',
                         description: 'Discover foodie buddies around you',
-                        color: Color(0xFFFFCC80),
+                        color: Color(0xFFFFE5B4),
                       ),
                       SizedBox(height: 16),
                       CompanionCard(
                         icon: Icons.travel_explore,
                         title: 'Travel Companion',
                         description: 'Meet travel partners for new adventures',
-                        color: Color(0xFF80DEEA),
+                        color: Color(0xFFE0F7FA),
                       ),
                     ],
                   ),
@@ -91,73 +89,17 @@ class CompanionFinderScreen extends StatelessWidget {
               right: 16,
               child: IconButton(
                 icon: const Icon(Icons.person, size: 28, color: Colors.black87),
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.white,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
+                onPressed: () => showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
                     ),
-                    builder: (context) => DraggableScrollableSheet(
-                      initialChildSize: 0.65,
-                      minChildSize: 0.3,
-                      maxChildSize: 0.65,
-                      expand: false,
-                      builder: (_, controller) => Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: ListView(
-                          controller: controller,
-                          children: const [
-                            Center(
-                              child: CircleAvatar(
-                                radius: 40,
-                                backgroundColor: Colors.grey,
-                                child: Icon(
-                                  Icons.person,
-                                  size: 40,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 16),
-                            Center(
-                              child: Text(
-                                'Ashmit Palit',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Center(
-                              child: Text(
-                                'ashmit@example.com',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Center(
-                              child: Text(
-                                '+91 9876543210',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                  ),
+                  builder: (context) => const ProfileBottomSheet(),
+                ),
               ),
             ),
           ],
@@ -183,49 +125,92 @@ class CompanionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.4),
-                shape: BoxShape.circle,
-              ),
-              padding: const EdgeInsets.all(12),
-              child: Icon(icon, size: 28, color: Colors.black87),
+    return Container(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.05),
+              shape: BoxShape.circle,
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
+            padding: const EdgeInsets.all(12),
+            child: Icon(icon, size: 28, color: Colors.black87),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    description,
-                    style: const TextStyle(fontSize: 14, color: Colors.black54),
-                  ),
-                ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  description,
+                  style: const TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black54),
+        ],
+      ),
+    );
+  }
+}
+
+class ProfileBottomSheet extends StatelessWidget {
+  const ProfileBottomSheet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.65,
+      minChildSize: 0.3,
+      maxChildSize: 0.65,
+      expand: false,
+      builder: (_, controller) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: ListView(
+          controller: controller,
+          children: const [
+            Center(
+              child: CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.grey,
+                child: Icon(Icons.person, size: 40, color: Colors.white),
               ),
             ),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 18,
-              color: Colors.black54,
+            SizedBox(height: 16),
+            Center(
+              child: Text(
+                'Ashmit Palit',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(height: 8),
+            Center(
+              child: Text(
+                'ashmit@example.com',
+                style: TextStyle(fontSize: 16, color: Colors.black54),
+              ),
+            ),
+            SizedBox(height: 4),
+            Center(
+              child: Text(
+                '+91 9876543210',
+                style: TextStyle(fontSize: 16, color: Colors.black54),
+              ),
             ),
           ],
         ),
